@@ -1,10 +1,104 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Play with React</title>
+  <script type="application/javascript" src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+  <script type="application/javascript" src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
+  <script type="application/javascript" src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+  // Obtain the root 
+  const rootElement = document.getElementById('root')
+  // Create a ES6 class component    
+  class BouncersList extends React.Component { 
+    // Use the render function to return JSX component      
+    constructor(props) {
+      super(props);      
+      this.state = { bouncers: [], delay: 250 };
+    }
+    callAPI() {
+        fetch("http://localhost:8080/WebAppAssign2/resources/bouncer",
+//      fetch("http://localhost:8080/bouncer-donald/resources/bouncer",
+      {headers: {'Accept': 'application/json', 'Authorization': 'Basic' +btoa("test" + ":" + "testpass") }})
+      .then(res => res.json())
+      .then(resjson => this.setState({bouncers: resjson}));
+    }        
+    
+    componentDidMount() {
+      this.callAPI();
+    }
+     render() { 
+        const bouncerArray = this.state.bouncers;        
+        return(                
+            <div className="bouncer-list">
+            <h1>Bouncers List on Bouncer game {this.props.name}</h1>
+             <form onSubmit={this.handleSubmit}>
+                <table>
+                   <tr><th>ID</th><th>X Position</th><th>Y Position</th><th>ySpeed</th></tr>
+                   {bouncerArray.map((bouncer,key)=>{
+                      return (
+                         <tr>
+                         <td>{bouncer.id}</td>
+                         <td><input type="text" name={bouncer.id} value={bouncer.x} onChange={(e)=>this.handleChange(e,"Xposition",key)} /> </td>
+                         <td><input type="text" name={bouncer.id} value={bouncer.y} onChange={(e)=>this.handleChange(e,"YPosition",key)} /> </td>
+                         <td><input type="text" name={bouncer.id} value={bouncer.ySpeed} onChange={(e)=>this.handleChange(e,"ySpeed",key)} /> </td>
+                       </tr>
+                        );
+                    })}
+               </table>
+               <input type="submit" value="Submit" />
+               </form>                  
+            </div>        
+        );
+       
+      } // end of render     
+      
+      handleSubmit(event) {
+        this.state.bouncers.map(item=>{fetch("http://localhost:8080/bouncer-donald/resources/cst8218.sinc0138.bouncer.entity/"+item.id,{
+              method: 'PUT',
+              body: JSON.stringify(item),
+              headers: {'Content-type': 'application/json'}})
+              .then(res => res.text());
+       });
+       event.preventDefault();
+     };
+     handleChange(event,field,index) {
+        var bouncers = this.state.bouncers.map((bouncer,key)=>{
+          if (key === index) {  // this one changed
+             return Object.assign({},item,{[field]: event.target.value}); // make a copy of the item to change    
+          } else {
+             return item;  // this one didn't change
+          }
+        });
+        this.setState({bouncers: bouncers});       
+      };  
+      
+} // end of class     
+
+
+    
+  // Create a function to wrap up your component
+  function App(){
+    return(
+    <div>
+      <BouncersList name="test"/>      
+    </div>
+    );
+  }
+  // Use the ReactDOM.render to show your component on the browser 
+  
+  const bouncerGrid = document.getElementById('bouncerCanvas');
+  
+    ReactDOM.render(        
+      <App />,
+      rootElement         
+    );         
+
+</script>
+</body>
 </html>
