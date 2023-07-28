@@ -7,8 +7,6 @@ package cst8218.sinc0138.bouncer.service;
 
 import cst8218.sinc0138.bouncer.entity.Bouncer;
 import java.util.List;
-import javax.annotation.security.DeclareRoles;
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.json.Json;
 import javax.json.JsonNumber;
