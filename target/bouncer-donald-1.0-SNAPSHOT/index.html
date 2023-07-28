@@ -14,7 +14,8 @@
   <script type="text/babel">
   // Obtain the root 
   const rootElement = document.getElementById('root')
-  // Create a ES6 class component    
+  // Create a ES6 class component   
+  
   class BouncersList extends React.Component { 
     // Use the render function to return JSX component      
     constructor(props) {
@@ -23,15 +24,40 @@
     }
     callAPI() {
         fetch("http://localhost:8080/WebAppAssign2/resources/bouncer",
-//      fetch("http://localhost:8080/bouncer-donald/resources/bouncer",
       {headers: {'Accept': 'application/json', 'Authorization': 'Basic' +btoa("test" + ":" + "testpass") }})
       .then(res => res.json())
       .then(resjson => this.setState({bouncers: resjson}));
     }        
-    
+      
     componentDidMount() {
       this.callAPI();
     }
+    componentDidUpdate(prevState) {
+      if (prevState.bouncers !== this.state.bouncers) {
+        this.callAPI();
+      }
+      this.drawBouncers(); // Update the canvas whenever the component updates
+    }
+
+
+      drawBouncers() {
+        const canvas = document.getElementById('bouncerCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const bouncers = this.state.bouncers;
+        for (const bouncer of bouncers) {
+          const x = parseInt(bouncer.x);
+          const y = parseInt(bouncer.y);
+          ctx.beginPath();
+                      ctx.arc(x, y, 10, 0, 2 * Math.PI);
+                      ctx.fillStyle = 'blue';
+                      ctx.fill();
+                      ctx.closePath();
+                  }
+                  requestAnimationFrame(() => this.drawBouncers());
+              }
+    
      render() { 
         const bouncerArray = this.state.bouncers;        
         return(                
@@ -44,38 +70,42 @@
                       return (
                          <tr>
                          <td>{bouncer.id}</td>
-                         <td><input type="text" name={bouncer.id} value={bouncer.x} onChange={(e)=>this.handleChange(e,"Xposition",key)} /> </td>
-                         <td><input type="text" name={bouncer.id} value={bouncer.y} onChange={(e)=>this.handleChange(e,"YPosition",key)} /> </td>
+                         <td><input type="text" name={bouncer.id} value={bouncer.x} onChange={(e)=>this.handleChange(e,"x",key)} /> </td>
+                         <td><input type="text" name={bouncer.id} value={bouncer.y} onChange={(e)=>this.handleChange(e,"y",key)} /> </td>
                          <td><input type="text" name={bouncer.id} value={bouncer.ySpeed} onChange={(e)=>this.handleChange(e,"ySpeed",key)} /> </td>
                        </tr>
                         );
                     })}
                </table>
                <input type="submit" value="Submit" />
-               </form>                  
+               </form>  
+               <br />
+               <canvas id="bouncerCanvas" width="500" height="500" style={{ border: '1px solid black'}}></canvas>                
             </div>        
         );
-       
       } // end of render     
       
       handleSubmit(event) {
-        this.state.bouncers.map(item=>{fetch("http://localhost:8080/bouncer-donald/resources/cst8218.sinc0138.bouncer.entity/"+item.id,{
+        this.state.bouncers.map(item=>{fetch("http://localhost:8080/WebAppAssign2/resources/bouncer/"+item.id,{
               method: 'PUT',
               body: JSON.stringify(item),
               headers: {'Content-type': 'application/json'}})
               .then(res => res.text());
-       });
+        });
        event.preventDefault();
      };
+     
      handleChange(event,field,index) {
-        var bouncers = this.state.bouncers.map((bouncer,key)=>{
+        var bouncers = this.state.bouncers.map((item,key)=>{
           if (key === index) {  // this one changed
              return Object.assign({},item,{[field]: event.target.value}); // make a copy of the item to change    
           } else {
              return item;  // this one didn't change
           }
         });
-        this.setState({bouncers: bouncers});       
+        this.setState({ bouncers: bouncers }, () => {
+            this.drawBouncers();
+          });     
       };  
       
 } // end of class     
@@ -86,7 +116,7 @@
   function App(){
     return(
     <div>
-      <BouncersList name="test"/>      
+      <BouncersList />      
     </div>
     );
   }
@@ -97,7 +127,7 @@
     ReactDOM.render(        
       <App />,
       rootElement         
-    );         
+    );
 
 </script>
 </body>

@@ -40,20 +40,47 @@ public class Bouncer implements Serializable {
      * create a bouncing ball effect.
      *
      */
-    public void advanceOneFrame() {
-        y += ySpeed; // add speed to coordinate so it moves
-
-        if (y > 0 && y < FRAME_HEIGHT) // checks if its at the floor
-        {
-            ySpeed += GRAVITY_ACCEL; // keep going until it hits the floor
-        }
-        if (y <= 0 && ySpeed < 0) // checks if its gone too high, start going down
-        {
-            ySpeed = -ySpeed - DECAY_RATE; // go lower each time
-        } else if (y >= FRAME_HEIGHT && ySpeed > 0) // go other way
-        {
-            ySpeed = -ySpeed + DECAY_RATE; // reverse direction, add decay
-        }
+    public void advanceOneFrame() { 
+        
+        int currentLocation = y; 
+        
+        // all these if statements are hella gross but =)
+        
+            if (ySpeed > 0){                
+                // positive calculation
+                // find next y Postion bases on ySpeed. If Beyond box bounds, it bounces.                
+                if ((currentLocation + ySpeed) >= FRAME_HEIGHT){
+                    // do bounce                      
+                    y = FRAME_HEIGHT;
+                    ySpeed *= -1;
+                    ySpeed = ySpeed + 1;    
+                    // couldn't decide if i wanted the bounce to also include a move? or this frame only assigns a "bounce"
+                } 
+                else {                      
+                    y = y + ySpeed; // adjust location. 
+                    ySpeed = ySpeed + GRAVITY_ACCEL; // adjust speed
+                }                
+            }
+            else if (ySpeed < 0 ) {                
+                if ((currentLocation + ySpeed) <= 0){ // adding due to it being a negative number
+                    // do bounce                    
+                     y = 0;
+                     ySpeed *= -1;
+                     ySpeed = ySpeed - 1;                     
+                }
+                else {                     
+                    y = y + ySpeed; // adjust location. 
+                    ySpeed = ySpeed + DECAY_RATE; // adjust speed
+                }                 
+            } 
+            else { // implies speed is 0. Have to account for moments the 
+                
+                if (y != FRAME_HEIGHT){ // means it's not stationary   
+                    
+                       ySpeed = ySpeed + 1;
+                    }             
+                                
+            }       
     }
     
     /**
