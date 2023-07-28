@@ -5,130 +5,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Play with React</title>
-  <script type="application/javascript" src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
-  <script type="application/javascript" src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
-  <script type="application/javascript" src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+ <!-- This setup is not suitable for production. -->
+<!-- Only use it in development! -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+<script type="importmap">
+    {
+    "imports": {
+    "react": "https://esm.sh/react?dev",
+    "react-dom/client": "https://esm.sh/react-dom/client?dev"
+     }
+    }
+</script>
 </head>
 <body>
   <div id="root"></div>
-  <script type="text/babel">
-  // Obtain the root 
-  const rootElement = document.getElementById('root')
-  // Create a ES6 class component   
-  
-  class BouncersList extends React.Component { 
-    // Use the render function to return JSX component      
-    constructor(props) {
-      super(props);      
-      this.state = { bouncers: [], delay: 250 };
-    }
-    callAPI() {
-        fetch("http://localhost:8080/WebAppAssign2/resources/bouncer",
-      {headers: {'Accept': 'application/json', 'Authorization': 'Basic' +btoa("test" + ":" + "testpass") }})
-      .then(res => res.json())
-      .then(resjson => this.setState({bouncers: resjson}));
-    }        
-      
-    componentDidMount() {
-      this.callAPI();
-    }
-    componentDidUpdate(prevState) {
-      if (prevState.bouncers !== this.state.bouncers) {
-        this.callAPI();
-      }
-      this.drawBouncers(); // Update the canvas whenever the component updates
-    }
-
-
-      drawBouncers() {
-        const canvas = document.getElementById('bouncerCanvas');
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const bouncers = this.state.bouncers;
-        for (const bouncer of bouncers) {
-          const x = parseInt(bouncer.x);
-          const y = parseInt(bouncer.y);
-          ctx.beginPath();
-                      ctx.arc(x, y, 10, 0, 2 * Math.PI);
-                      ctx.fillStyle = 'blue';
-                      ctx.fill();
-                      ctx.closePath();
-                  }
-                  requestAnimationFrame(() => this.drawBouncers());
-              }
-    
-     render() { 
-        const bouncerArray = this.state.bouncers;        
-        return(                
-            <div className="bouncer-list">
-            <h1>Bouncers List on Bouncer game {this.props.name}</h1>
-             <form onSubmit={this.handleSubmit}>
-                <table>
-                   <tr><th>ID</th><th>X Position</th><th>Y Position</th><th>ySpeed</th></tr>
-                   {bouncerArray.map((bouncer,key)=>{
-                      return (
-                         <tr>
-                         <td>{bouncer.id}</td>
-                         <td><input type="text" name={bouncer.id} value={bouncer.x} onChange={(e)=>this.handleChange(e,"x",key)} /> </td>
-                         <td><input type="text" name={bouncer.id} value={bouncer.y} onChange={(e)=>this.handleChange(e,"y",key)} /> </td>
-                         <td><input type="text" name={bouncer.id} value={bouncer.ySpeed} onChange={(e)=>this.handleChange(e,"ySpeed",key)} /> </td>
-                       </tr>
-                        );
-                    })}
-               </table>
-               <input type="submit" value="Submit" />
-               </form>  
-               <br />
-               <canvas id="bouncerCanvas" width="500" height="500" style={{ border: '1px solid black'}}></canvas>                
-            </div>        
-        );
-      } // end of render     
-      
-      handleSubmit(event) {
-        this.state.bouncers.map(item=>{fetch("http://localhost:8080/WebAppAssign2/resources/bouncer/"+item.id,{
-              method: 'PUT',
-              body: JSON.stringify(item),
-              headers: {'Content-type': 'application/json'}})
-              .then(res => res.text());
-        });
-       event.preventDefault();
-     };
+<script type="text/babel" data-type="module">   
+      import React, { useEffect, useState, StrictMode, useRef } from 'react';
+       import {createRoot} from 'react-dom/client';
+       
+       function MyApp() {    
+                
+        const [bouncers, setBouncers] = useState([]);
+        
+        useEffect(
+            () => {
+              async function getBouncers() {
+                  let result = await fetch("http://localhost:8080/WebAppAssign2/resources/bouncer",
+                  {
+                      method: 'GET',
+                      headers: {'Accept': 'application/json'}
+                  });
+                  const json = await result.json();
+                  setBouncers(json);
+                };                
+                const timeInterval = setInterval(getBouncers,300);                
+                return () => clearInterval(timeInterval);                
+           }, []);
+                     
+        useEffect(
+            () => {
+                const ctx = bouncerCanvas.getContext("2d");
+                ctx.clearRect(0, 0, bouncerCanvas.width,bouncerCanvas.height);
+                ctx.fillStyle = "#0000FF";
+                bouncers.forEach(item => {
+                ctx.fillRect(item.x, item.y, 10, 10)
+            });
+          });         
+        
+            
+            return  <div> 
+                    <h1> Lets watch our bouncers bounce! </h1>
+                    <canvas id="bouncerCanvas" width="500" height="510" style={{ border: '1px solid black'}}></canvas> 
+                    </div>
+        }
      
-     handleChange(event,field,index) {
-        var bouncers = this.state.bouncers.map((item,key)=>{
-          if (key === index) {  // this one changed
-             return Object.assign({},item,{[field]: event.target.value}); // make a copy of the item to change    
-          } else {
-             return item;  // this one didn't change
-          }
-        });
-        this.setState({ bouncers: bouncers }, () => {
-            this.drawBouncers();
-          });     
-      };  
-      
-} // end of class     
-
-
-    
-  // Create a function to wrap up your component
-  function App(){
-    return(
-    <div>
-      <BouncersList />      
-    </div>
-    );
-  }
-  // Use the ReactDOM.render to show your component on the browser 
-  
-  const bouncerGrid = document.getElementById('bouncerCanvas');
-  
-    ReactDOM.render(        
-      <App />,
-      rootElement         
-    );
-
+         const bouncerGrid = document.getElementById('bouncerCanvas');
+         const container = document.getElementById('root');
+         const root = createRoot(container);
+         root.render(<MyApp />); 
 </script>
 </body>
 </html>
