@@ -9,7 +9,7 @@
         <h:outputStylesheet name="css/site.css"/>
     </h:head>
     <h:body>
-        <h:form>
+        <h:form>            
             <h:selectOneMenu value="#{AppuserController.language}" onchange="submit()">
                 <f:selectItem itemValue="en" itemLabel="English" />
                 <f:selectItem itemValue="fr" itemLabel="French" />
@@ -21,6 +21,6 @@
         <br />
         <a class="nice-button" href="/WebAppAssign2/faces/appuser/List.xhtml">#{bundleUsers.ButtonTitleTwo}</a>        
         <br />
-        <a class="nice-button" href="/WebAppAssign2/faces/BouncerTable.html">#{bundleUsers.ButtonTitleThree}</a>
+        <a class="nice-button" href="/WebAppAssign2/faces/BouncerTable.html">#{bundleUsers.ButtonTitleThree}</a>           
     </h:body>
 </html>
