@@ -79,7 +79,7 @@ public class Appuser implements Serializable {
 
     public void setPassword(String passwordIn) {
         // initialize a PasswordHash object which will generate password hashes
-        if(password.equals("")){
+        if(passwordIn.equals("")){
             return;
         }
         Instance<? extends PasswordHash> instance = CDI.current().select(Pbkdf2PasswordHash.class);
