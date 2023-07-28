@@ -76,11 +76,18 @@ public class Appuser implements Serializable {
     public String getPassword() {
         return "";
     }
-
+    
+    
+    /*
+    
+    Sets our password for an AppUser. 
+    Takes the entered password and then hashes it to something a potential bad individual may not be able to decipher easily. 
+    this function is also setup where if a user is editing an account, if left blank the password will remain what it was.    
+    */
     public void setPassword(String passwordIn) {
         // initialize a PasswordHash object which will generate password hashes
         if(passwordIn.equals("")){
-            return;
+            return; // allows a user to no change their password by leaving the password field blank. 
         }
         Instance<? extends PasswordHash> instance = CDI.current().select(Pbkdf2PasswordHash.class);
         PasswordHash passwordHash = instance.get();
