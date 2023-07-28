@@ -34,12 +34,6 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundleUsers.ListAppuserTitle_password}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.password}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
                                 <h:outputText value="#{bundleUsers.ListAppuserTitle_userid}"/>
                             </f:facet>
                             <h:outputText value="#{item.userid}"/>
@@ -60,7 +54,7 @@
                 <h:commandLink action="#{AppuserController.prepareCreate}" value="#{bundleUsers.ListAppuserCreateLink}"/>
                 <br />
                 <br />
-                <h:link outcome="/index" value="#{bundleUsers.ListAppuserIndexLink}"/>
+                <h:link outcome="/index" value="#{bundleUsers.GoBack}"/>
             </h:form>
         </ui:define>
     </ui:composition>

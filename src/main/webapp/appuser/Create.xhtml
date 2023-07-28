@@ -16,20 +16,20 @@
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundleUsers.CreateAppuserLabel_groupname}" for="groupname" />
-                    <h:inputText id="groupname" value="#{appuserController.selected.groupname}" title="#{bundleUsers.CreateAppuserTitle_groupname}" />
+                    <h:inputText id="groupname" value="#{AppuserController.selected.groupname}" title="#{bundleUsers.CreateAppuserTitle_groupname}" />
                     <h:outputLabel value="#{bundleUsers.CreateAppuserLabel_password}" for="password" />
-                    <h:inputText id="password" value="#{appuserController.selected.password}" title="#{bundleUsers.CreateAppuserTitle_password}" />
+                    <h:inputText id="password" value="#{AppuserController.selected.password}" title="#{bundleUsers.CreateAppuserTitle_password}" />
                     <h:outputLabel value="#{bundleUsers.CreateAppuserLabel_userid}" for="userid" />
-                    <h:inputText id="userid" value="#{appuserController.selected.userid}" title="#{bundleUsers.CreateAppuserTitle_userid}" />
+                    <h:inputText id="userid" value="#{AppuserController.selected.userid}" title="#{bundleUsers.CreateAppuserTitle_userid}" />
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{appuserController.create}" value="#{bundleUsers.CreateAppuserSaveLink}" />
+                <h:commandLink action="#{AppuserController.create}" value="#{bundleUsers.CreateAppuserSaveLink}" />
                 <br />
                 <br />
-                <h:commandLink action="#{appuserController.prepareList}" value="#{bundleUsers.CreateAppuserShowAllLink}" immediate="true"/>
+                <h:commandLink action="#{AppuserController.prepareList}" value="#{bundleUsers.CreateAppuserShowAllLink}" immediate="true"/>
                 <br />
                 <br />
-                <h:link outcome="/index" value="#{bundleUsers.CreateAppuserIndexLink}"/>
+                <h:link outcome="/index" value="#{bundleUsers.GoBack}"/>
             </h:form>
         </ui:define>
     </ui:composition>

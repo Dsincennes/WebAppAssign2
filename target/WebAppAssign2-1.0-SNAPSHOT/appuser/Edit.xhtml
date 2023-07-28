@@ -16,21 +16,21 @@
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundleUsers.EditAppuserLabel_groupname}" for="groupname" />
-                    <h:inputText id="groupname" value="#{appuserController.selected.groupname}" title="#{bundleUsers.EditAppuserTitle_groupname}" />
+                    <h:inputText id="groupname" value="#{AppuserController.selected.groupname}" title="#{bundleUsers.EditAppuserTitle_groupname}" />
                     <h:outputLabel value="#{bundleUsers.EditAppuserLabel_password}" for="password" />
-                    <h:inputText id="password" value="#{appuserController.selected.password}" title="#{bundleUsers.EditAppuserTitle_password}" />
+                    <h:inputText id="password" value="#{AppuserController.selected.password}" title="#{bundleUsers.EditAppuserTitle_password}" />
                     <h:outputLabel value="#{bundleUsers.EditAppuserLabel_userid}" for="userid" />
-                    <h:inputText id="userid" value="#{appuserController.selected.userid}" title="#{bundleUsers.EditAppuserTitle_userid}" />
+                    <h:inputText id="userid" value="#{AppuserController.selected.userid}" title="#{bundleUsers.EditAppuserTitle_userid}" />
                 </h:panelGrid>
-                <h:commandLink action="#{appuserController.update}" value="#{bundleUsers.EditAppuserSaveLink}"/>
+                <h:commandLink action="#{AppuserController.update}" value="#{bundleUsers.EditAppuserSaveLink}"/>
                 <br />
                 <br />
                 <h:link outcome="View" value="#{bundleUsers.EditAppuserViewLink}"/>
                 <br />
-                <h:commandLink action="#{appuserController.prepareList}" value="#{bundleUsers.EditAppuserShowAllLink}" immediate="true"/>
+                <h:commandLink action="#{AppuserController.prepareList}" value="#{bundleUsers.EditAppuserShowAllLink}" immediate="true"/>
                 <br />
                 <br />
-                <h:link outcome="/index" value="#{bundleUsers.EditAppuserIndexLink}" />
+                <h:link outcome="/index" value="#{bundleUsers.GoBack}" />
             </h:form>
         </ui:define>
     </ui:composition>

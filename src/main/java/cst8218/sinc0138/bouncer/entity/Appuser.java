@@ -79,6 +79,9 @@ public class Appuser implements Serializable {
 
     public void setPassword(String passwordIn) {
         // initialize a PasswordHash object which will generate password hashes
+        if(password.equals("")){
+            return;
+        }
         Instance<? extends PasswordHash> instance = CDI.current().select(Pbkdf2PasswordHash.class);
         PasswordHash passwordHash = instance.get();
         passwordHash.initialize(new HashMap<>());  // todo: are the defaults good enough?

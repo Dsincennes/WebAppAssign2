@@ -16,27 +16,26 @@
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputText value="#{bundleUsers.ViewAppuserLabel_id}"/>
-                    <h:outputText value="#{appuserController.selected.id}" title="#{bundleUsers.ViewAppuserTitle_id}"/>
+                    <h:outputText value="#{AppuserController.selected.id}" title="#{bundleUsers.ViewAppuserTitle_id}"/>
                     <h:outputText value="#{bundleUsers.ViewAppuserLabel_groupname}"/>
-                    <h:outputText value="#{appuserController.selected.groupname}" title="#{bundleUsers.ViewAppuserTitle_groupname}"/>
+                    <h:outputText value="#{AppuserController.selected.groupname}" title="#{bundleUsers.ViewAppuserTitle_groupname}"/>
                     <h:outputText value="#{bundleUsers.ViewAppuserLabel_password}"/>
-                    <h:outputText value="#{appuserController.selected.password}" title="#{bundleUsers.ViewAppuserTitle_password}"/>
+                    <h:outputText value="#{AppuserController.selected.password}" title="#{bundleUsers.ViewAppuserTitle_password}"/>
                     <h:outputText value="#{bundleUsers.ViewAppuserLabel_userid}"/>
-                    <h:outputText value="#{appuserController.selected.userid}" title="#{bundleUsers.ViewAppuserTitle_userid}"/>
+                    <h:outputText value="#{AppuserController.selected.userid}" title="#{bundleUsers.ViewAppuserTitle_userid}"/>
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{appuserController.destroyAndView}" value="#{bundleUsers.ViewAppuserDestroyLink}"/>
+                <h:commandLink action="#{AppuserController.destroyAndView}" value="#{bundleUsers.ViewAppuserDestroyLink}"/>
                 <br />
                 <br />
                 <h:link outcome="Edit" value="#{bundleUsers.ViewAppuserEditLink}"/>
                 <br />
-                <h:commandLink action="#{appuserController.prepareCreate}" value="#{bundleUsers.ViewAppuserCreateLink}" />
+                <h:commandLink action="#{AppuserController.prepareCreate}" value="#{bundleUsers.ViewAppuserCreateLink}" />
                 <br />
-                <h:commandLink action="#{appuserController.prepareList}" value="#{bundleUsers.ViewAppuserShowAllLink}"/>
+                <h:commandLink action="#{AppuserController.prepareList}" value="#{bundleUsers.ViewAppuserShowAllLink}"/>
                 <br />
                 <br />
-                <h:link outcome="/index" value="#{bundleUsers.ViewAppuserIndexLink}"/>
-
+                <h:link outcome="/index" value="#{bundleUsers.GoBack}"/>
             </h:form>
         </ui:define>
     </ui:composition>
