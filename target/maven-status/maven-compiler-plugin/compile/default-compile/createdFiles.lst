@@ -1,10 +1,7 @@
-cst8218\sinc0138\bouncer\presentation\BouncerController$BouncerControllerConverter.class
 cst8218\sinc0138\bouncer\game\BoucerGame.class
 cst8218\sinc0138\bouncer\presentation\AppuserController.class
 cst8218\sinc0138\bouncer\presentation\BouncerController$1.class
 cst8218\sinc0138\bouncer\business\AppuserFacade.class
-cst8218\sinc0138\bouncer\resources\JavaEE8Resource.class
-cst8218\sinc0138\bouncer\presentation\BouncerController.class
 cst8218\sinc0138\bouncer\presentation\AppuserController$AppuserControllerConverter.class
 cst8218\sinc0138\bouncer\service\AbstractFacade.class
 cst8218\sinc0138\bouncer\presentation\AppuserController$1.class
@@ -14,6 +11,9 @@ cst8218\sinc0138\bouncer\business\BouncerFacade.class
 cst8218\sinc0138\bouncer\game\BoucerGame$1.class
 cst8218\sinc0138\bouncer\business\AbstractFacade.class
 cst8218\sinc0138\bouncer\entity\Bouncer.class
-cst8218\sinc0138\bouncer\JAXRSConfiguration.class
 cst8218\sinc0138\bouncer\presentation\util\JsfUtil.class
+cst8218\sinc0138\bouncer\presentation\BouncerController$BouncerControllerConverter.class
+cst8218\sinc0138\bouncer\resources\JavaEE8Resource.class
+cst8218\sinc0138\bouncer\presentation\BouncerController.class
+cst8218\sinc0138\bouncer\JAXRSConfiguration.class
 cst8218\sinc0138\bouncer\service\BouncerFacadeREST.class
