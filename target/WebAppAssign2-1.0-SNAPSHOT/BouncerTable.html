@@ -25,9 +25,10 @@ import React, { useEffect, useState, StrictMode, useRef } from 'react';
 import {createRoot} from 'react-dom/client';
        
        function MyApp() {
-     
+           
+        const [bouncers, setBouncers] = useState([]);   
         const [selected, setSelected] = useState([]);          
-        const [bouncers, setBouncers] = useState([]);
+        
         
         useEffect(
             () => {
@@ -57,7 +58,7 @@ import {createRoot} from 'react-dom/client';
                 bouncers.map((item, key) => {
                     if (key === selected.index) { //this is the one the user is changing
                      newItem = Object.assign({}, item, {[selected.field]: selected.value}); //make a copy of the item to change
-                     setBouncers({}); // reset selected until next click/change
+                     setBouncers([]); // reset selected until next click/change
                         fetch("http://localhost:8080/WebAppAssign2/resources/bouncer/" + item.id, {
                             method: 'PUT',
                             body: JSON.stringify(newItem),
@@ -70,10 +71,11 @@ import {createRoot} from 'react-dom/client';
                   };         
             
             return <div>
-                <form onSubmit={handleSubmit}>
-                        <table>
+                    <h1> Bouncer Live Data</h1>
+                    <form onSubmit={handleSubmit}>
+                        <table style={{ border: '1px solid black'}}>
                         <tbody>
-                            <tr><th>ID</th><th>X Position</th><th>Y Position</th><th>ySpeed</th>{selected.field != null ? <th> new {selected.field}</th>:""}</tr>
+                            <tr><th>ID</th><th>X Position</th><th>Y Position</th><th>ySpeed</th>{selected.field != null ? <th> New {selected.field}</th>:""}</tr>
                             {bouncers.map((bouncer,key)=>{
                             return (
                             <tr>
