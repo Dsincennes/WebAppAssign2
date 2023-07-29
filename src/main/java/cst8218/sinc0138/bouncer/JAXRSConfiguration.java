@@ -14,6 +14,12 @@ import javax.ws.rs.core.Application;
  * Configures JAX-RS for the application.
  * @author Juneau
  */
+
+
+/*
+This is our basic Authentication call.
+Queries the database for if the user inputted a valid username and password
+*/
 @BasicAuthenticationMechanismDefinition
 @DatabaseIdentityStoreDefinition(
    dataSourceLookup = "${'java:comp/DefaultDataSource'}",
@@ -23,6 +29,12 @@ import javax.ws.rs.core.Application;
    priority = 10
 )
 
+/*
+Form authentication.
+Alternative login feature
+When activated, this will call up a seperate page names Login.html
+Presents login fields for the user to put in a username and password. 
+*/
 /*
 @FormAuthenticationMechanismDefinition(
     loginToContinue = @LoginToContinue(

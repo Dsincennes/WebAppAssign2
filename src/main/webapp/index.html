@@ -37,10 +37,13 @@
     import React, { useEffect, useState, StrictMode, useRef } from 'react';
     import {createRoot} from 'react-dom/client';
        
-    function MyApp() {    
-                
+    function MyApp() {
+    
+    /* Declares that the Bouncers is an Array object and can be set with setBouncers */             
     const [bouncers, setBouncers] = useState([]);
-        
+    
+    /* UseEffect calls each time the page is refreshed, this function calls the hostpath to obtain the data in a Json format. */
+    /* Sets the bouncers array according to the JSON file using setBouncers*/    
     useEffect(
         () => {
           async function getBouncers() {
@@ -55,7 +58,9 @@
             const timeInterval = setInterval(getBouncers,300);                
             return () => clearInterval(timeInterval);                
        }, []);
-
+       
+        /* This use effect Fills in our canvas object. refreshes every page refresh.  */
+        /* Currently displays a 10 by 10 square according to the x and y values for each bouncer item */  
         useEffect(() => {
             const basketballPattern = new Image();
             basketballPattern.src = 'bass2.png';
@@ -78,7 +83,7 @@
                     <canvas id="bouncerCanvas" width="500" height="510" style={{ border: '1px solid black'}}></canvas> 
                     </div>
         }
-     
+        /* Applies a render */  
          const bouncerGrid = document.getElementById('bouncerCanvas');
          const container = document.getElementById('root');
          const root = createRoot(container);

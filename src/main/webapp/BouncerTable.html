@@ -27,8 +27,12 @@ import {createRoot} from 'react-dom/client';
        function MyApp() {
            
         const [bouncers, setBouncers] = useState([]);   
-        const [selected, setSelected] = useState([]);          
+        /* Declares that the Bouncers is an Array object and can be set with setBouncers */  
+        const [selected, setSelected] = useState([]);       
         
+        
+        /* UseEffect calls each time the page is refreshed, this function calls the hostpath to obtain the data in a Json format. */
+        /* Sets the bouncers array according to the JSON file using setBouncers*/
         
         useEffect(
             () => {
@@ -40,19 +44,21 @@ import {createRoot} from 'react-dom/client';
                   });
                   const json = await result.json();
                   setBouncers(json);
-                };                
+                };      
+                {/* Applies a refresh interval to control how often the page refreshes */}
                 const timeInterval = setInterval(getBouncers,300);                
                 return () => clearInterval(timeInterval);                
            }, []);   
-           
+         
+                        /* When the table is clicked, this is called to place the currnet table value into the temp box which allows assigning a new value */
         const handleClick = (event, field, index) => {
             setSelected({"index":index, "field":field,"value":event.target.value});   
          };// handle click end
-          
+                          /* Applies the change when clicking the submit button. Value is taken from the temporary box created from the handleclick function */
         function handleChange(event,field,index) {
           setSelected({"index":index, "field":selected.field,"value":event.target.value})    
           };     
-          
+                         /* Submits the value(s) and applies the modified JSON text to the database inside of a PUT request  */
         const handleSubmit = (event) => {
             var newItem;
                 bouncers.map((item, key) => {
@@ -70,6 +76,7 @@ import {createRoot} from 'react-dom/client';
                     event.preventDefault();
                   };         
             
+            /* Displays our table data of the current bouncers. Our Bread and butter */
             return <div>
                     <h1> Bouncer Live Data</h1>
                     <form onSubmit={handleSubmit}>
@@ -96,6 +103,7 @@ import {createRoot} from 'react-dom/client';
                     </div>
         }
      
+        /* Applies a render */
          const bouncerGrid = document.getElementById('bouncerCanvas');
          const container = document.getElementById('root');
          const root = createRoot(container);
