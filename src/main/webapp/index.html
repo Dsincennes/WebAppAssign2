@@ -9,6 +9,8 @@
 <!-- Only use it in development! -->
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script async src="https://ga.jspm.io/npm:es-module-shims@1.7.0/dist/es-module-shims.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="javax.faces.resource/css/site.css">
 <script type="importmap">
     {
     "imports": {
@@ -17,19 +19,6 @@
      }
     }
 </script>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 20vh;
-      margin: 0;
-      text-align: center;
-    }
-    .content-container {
-      text-align: center;
-    }
-  </style>
 </head>
 <body>
   <div id="root"></div>
@@ -62,26 +51,33 @@
         /* This use effect Fills in our canvas object. refreshes every page refresh.  */
         /* Currently displays a 10 by 10 square according to the x and y values for each bouncer item */  
         useEffect(() => {
+            const bouncerCanvas = document.getElementById('bouncerCanvas');
+            const ctx = bouncerCanvas.getContext("2d");
             const basketballPattern = new Image();
             basketballPattern.src = 'bass2.png';
-            const ctx = bouncerCanvas.getContext("2d");
-
             const wallpaperImage = new Image();
             wallpaperImage.src = 'court.jpg';
             
             wallpaperImage.onload = () => {
                 ctx.drawImage(wallpaperImage, 0, 0, bouncerCanvas.width, bouncerCanvas.height);
-
                 bouncers.forEach(item => {
-                    ctx.drawImage(basketballPattern, item.x, item.y, 100, 100);
+                    const maxX = bouncerCanvas.width - 100; // Pattern width is 100
+                    const maxY = bouncerCanvas.height - 100; // Pattern height is 100
+                    const x = Math.min(maxX, item.x);
+                    const y = Math.min(maxY, item.y);
+                    ctx.drawImage(basketballPattern, x, y, 100, 100);
                 });
             };
         });
 
             return  <div> 
-                    <h1> Bouncers </h1>
-                    <canvas id="bouncerCanvas" width="500" height="510" style={{ border: '1px solid black'}}></canvas> 
+                        <h1> Bouncers </h1>
+                        <canvas id="bouncerCanvas" width="500" height="510" style={{ border: '1px solid black'}}></canvas> 
+                        <div className="text-center mt-4">
+                            <a href="index.xhtml" className="btn btn-secondary">Go Back to Home Page</a>
+                        </div>
                     </div>
+                    
         }
         /* Applies a render */  
          const bouncerGrid = document.getElementById('bouncerCanvas');
