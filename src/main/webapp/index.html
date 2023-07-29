@@ -17,50 +17,69 @@
      }
     }
 </script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 20vh;
+      margin: 0;
+      text-align: center;
+    }
+    .content-container {
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
   <div id="root"></div>
 <script type="text/babel" data-type="module">   
-      import React, { useEffect, useState, StrictMode, useRef } from 'react';
-       import {createRoot} from 'react-dom/client';
+    import React, { useEffect, useState, StrictMode, useRef } from 'react';
+    import {createRoot} from 'react-dom/client';
        
-       function MyApp() {    
-           
-        /* Declares that the Bouncers is an Array object and can be set with setBouncers */       
-        const [bouncers, setBouncers] = useState([]);
-        
-        /* UseEffect calls each time the page is refreshed, this function calls the hostpath to obtain the data in a Json format. */
-        /* Sets the bouncers array according to the JSON file using setBouncers*/
-        useEffect(
-            () => {
-              async function getBouncers() {
-                  let result = await fetch("http://localhost:8080/WebAppAssign2/resources/bouncer",
-                  {
-                      method: 'GET',
-                      headers: {'Accept': 'application/json'}
-                  });
-                  const json = await result.json();
-                  setBouncers(json);
-                };                
-                const timeInterval = setInterval(getBouncers,300);                
-                return () => clearInterval(timeInterval);                
-           }, []);
-                     
-         /* This use effect Fills in our canvas object. refreshes every page refresh.  */
-         /* Currently displays a 10 by 10 square according to the x and y values for each bouncer item */  
-        useEffect(
-            () => {
-                const ctx = bouncerCanvas.getContext("2d");
-                ctx.clearRect(0, 0, bouncerCanvas.width,bouncerCanvas.height);
-                ctx.fillStyle = "#0000FF";
+    function MyApp() {
+    
+    /* Declares that the Bouncers is an Array object and can be set with setBouncers */             
+    const [bouncers, setBouncers] = useState([]);
+    
+    /* UseEffect calls each time the page is refreshed, this function calls the hostpath to obtain the data in a Json format. */
+    /* Sets the bouncers array according to the JSON file using setBouncers*/    
+    useEffect(
+        () => {
+          async function getBouncers() {
+              let result = await fetch("http://localhost:8080/WebAppAssign2/resources/bouncer",
+              {
+                  method: 'GET',
+                  headers: {'Accept': 'application/json'}
+              });
+              const json = await result.json();
+              setBouncers(json);
+            };                
+            const timeInterval = setInterval(getBouncers,300);                
+            return () => clearInterval(timeInterval);                
+       }, []);
+       
+        /* This use effect Fills in our canvas object. refreshes every page refresh.  */
+        /* Currently displays a 10 by 10 square according to the x and y values for each bouncer item */  
+        useEffect(() => {
+            const basketballPattern = new Image();
+            basketballPattern.src = 'bass2.png';
+            const ctx = bouncerCanvas.getContext("2d");
+
+            const wallpaperImage = new Image();
+            wallpaperImage.src = 'court.jpg';
+            
+            wallpaperImage.onload = () => {
+                ctx.drawImage(wallpaperImage, 0, 0, bouncerCanvas.width, bouncerCanvas.height);
+
                 bouncers.forEach(item => {
-                ctx.fillRect(item.x, item.y, 10, 10)
-            });
-          });         
-        
-            /* Declares our canvas object */  
+                    ctx.drawImage(basketballPattern, item.x, item.y, 100, 100);
+                });
+            };
+        });
+
             return  <div> 
-                    <h1> Lets watch our bouncers bounce! </h1>
+                    <h1> Bouncers </h1>
                     <canvas id="bouncerCanvas" width="500" height="510" style={{ border: '1px solid black'}}></canvas> 
                     </div>
         }

@@ -38,12 +38,17 @@ public class AppuserFacadeREST extends AbstractFacade<Appuser> {
         super(Appuser.class);
     }
 
+    /**
+     * creates a specific user
+     * @param id the specific user you want to view
+     * @return json of user
+     */
     @POST
     @RolesAllowed({"Admin","APIGroup"})
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response create(Appuser entity) {
-if (entity != null) {
+        if (entity != null) {
             if (entity.getId() == null) {
                 return super.create(entity);
             } else {
@@ -53,6 +58,11 @@ if (entity != null) {
         return Response.status(Response.Status.BAD_REQUEST).entity("Error Creating User").build();
     }
 
+     /**
+     * modifies user
+     * @param id the specific user you want to view
+     * @return json of user
+     */
     @PUT
     @RolesAllowed({"Admin","APIGroup"})
     @Path("{id}")
@@ -62,9 +72,9 @@ if (entity != null) {
     }
 
     /**
-     * Gets information of a specific bouncer
-     * @param id the specific bouncer you want to view
-     * @return json of bouncer
+     * Gets information of a specific user
+     * @param id the specific user you want to view
+     * @return json of user
      */
     @GET
     @RolesAllowed({"Admin","APIGroup"})
